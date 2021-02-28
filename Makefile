@@ -9,12 +9,17 @@ build:
 .PHONY: run
 ## run: Build and Run in development mode.
 run: build
-	@./$(NAME) -e development
+	@./$(NAME) -e dev
 
 .PHONY: run-prod
 ## run-prod: Build and Run in production mode.
 run-prod: build
-	@./$(NAME) -e production
+	@./$(NAME) -e prod
+
+.PHONY: run-stage
+## run-stage: Build and Run in staging mode.
+run-stage: build
+	@./$(NAME) -e stage
 
 .PHONY: clean
 ## clean: Clean project and previous builds.

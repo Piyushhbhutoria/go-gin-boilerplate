@@ -1,0 +1,4 @@
+db:
+  endpoint: 'localhost'
+server:
+  port: 3000

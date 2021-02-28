@@ -1,6 +1,3 @@
-.swp
-config/production.yaml
+config/prod.yaml
 build/
-Godeps/
-!Godeps/Godeps.json
-go-gin-boilerplate
+.DS_Store
