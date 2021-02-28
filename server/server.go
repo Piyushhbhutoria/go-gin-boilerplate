@@ -1,9 +1,16 @@
 package server
 
-import "github.com/Piyushhbhutoria/go-gin-boilerplate/config"
+import (
+	"log"
+
+	"github.com/Piyushhbhutoria/go-gin-boilerplate/config"
+)
 
 func Init() {
 	config := config.GetConfig()
 	r := NewRouter()
-	r.Run(config.GetString("server.port"))
+	err := r.Run(config.GetString("server.port"))
+	if err != nil {
+		log.Println("error running server => ", err)
+	}
 }

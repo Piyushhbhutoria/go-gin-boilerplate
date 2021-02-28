@@ -1,8 +1,8 @@
 # Go Gin Boilerplate
 
-> A starter project with Golang, Gin and DynamoDB
+> A starter project with Golang, Gin and postgresql
 
-Golang Gin boilerplate with DynamoDB resource. Supports multiple configuration environments.
+Golang Gin boilerplate with postgresql resource. Supports multiple configuration environments.
 
 ![](header.jpg)
 
@@ -13,20 +13,28 @@ Golang Gin boilerplate with DynamoDB resource. Supports multiple configuration e
 ├── Makefile
 ├── Procfile
 ├── README.md
+├── build
 ├── config
 │   ├── config.go
 │   ├── dev.yaml
 │   ├── prod.yaml
-│   ├── stage.yaml
-│   └── test.yaml
+│   └── stage.yaml
 ├── controllers
+│   └── health.go
+├── data
+│   └── dummy.json
 ├── db
 │   └── db.go
+├── logger
+│   └── logger.go
 ├── header.jpg
 ├── main.go
 ├── middlewares
 │   └── auth.go
-├── models
+├── schema
+│   └── db.go
+├── util
+│   └── http.go
 └── server
     ├── router.go
     └── server.go
@@ -40,4 +48,4 @@ make deps
 
 ## Usage example
 
-`curl http://localhost:8888/health`
+`curl http://localhost:3000/health`

@@ -1,4 +1,8 @@
 db:
-  endpoint: 'localhost'
+  host: 'localhost'
+  port: 5432
+  user: ''
+  password: ''
+  dbname: ''
 server:
-  port: 3000
+  port: ':3000'

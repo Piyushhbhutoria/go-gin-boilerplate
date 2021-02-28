@@ -1,25 +1,30 @@
 package db
 
 import (
+	"context"
+	"fmt"
+	"os"
+
 	"github.com/Piyushhbhutoria/go-gin-boilerplate/config"
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/credentials"
-	"github.com/aws/aws-sdk-go/aws/session"
-	"github.com/aws/aws-sdk-go/service/dynamodb"
+	"github.com/jackc/pgx"
 )
 
-var db *dynamodb.DynamoDB
+var db *pgx.Conn
 
 func Init() {
 	c := config.GetConfig()
-	db = dynamodb.New(session.New(&aws.Config{
-		Region:      aws.String(c.GetString("db.region")),
-		Credentials: credentials.NewEnvCredentials(),
-		Endpoint:    aws.String(c.GetString("db.endpoint")),
-		DisableSSL:  aws.Bool(c.GetBool("db.disable_ssl")),
-	}))
+	c := config.GetConfig()
+	var dbURL string = fmt.Sprintf("postgresql://%s:%s@%s:%s/%s", c.GetString("db.user"), c.GetString("db.password"), c.GetString("db.host"), c.GetString("db.port"), c.GetString("db.dbname"))
+
+	conn, err := pgx.Connect(context.Background(), dbURL)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", err)
+		os.Exit(1)
+	}
+	db = conn
+	// defer db.Close(context.Background())
 }
 
-func GetDB() *dynamodb.DynamoDB {
+func GetDB() *pgx.Conn {
 	return db
 }

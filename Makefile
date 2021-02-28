@@ -4,7 +4,7 @@ VERSION=0.0.1
 .PHONY: build
 ## build: Compile the packages.
 build:
-	@go build -o $(NAME)
+	@go build -o $(NAME) -tags=jsoniter -o $(BUILD)/$(NAME)
 
 .PHONY: run
 ## run: Build and Run in development mode.
