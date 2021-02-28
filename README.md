@@ -2,9 +2,6 @@
 
 > A starter project with Golang, Gin and DynamoDB
 
-[![Go Version][go-image]][go-url]
-[![License][license-image]][license-url]
-
 Golang Gin boilerplate with DynamoDB resource. Supports multiple configuration environments.
 
 ![](header.jpg)
