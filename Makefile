@@ -1,5 +1,6 @@
 NAME=go-gin-boilerplate
 VERSION=0.0.1
+BUILD=build
 
 .PHONY: build
 ## build: Compile the packages.
@@ -9,32 +10,32 @@ build:
 .PHONY: run
 ## run: Build and Run in development mode.
 run: build
-	@./$(NAME) -e dev
+	@./$(BUILD)/$(NAME) -e dev
 
 .PHONY: run-prod
 ## run-prod: Build and Run in production mode.
 run-prod: build
-	@./$(NAME) -e prod
+	@./$(BUILD)/$(NAME) -e prod
 
 .PHONY: run-stage
 ## run-stage: Build and Run in staging mode.
 run-stage: build
-	@./$(NAME) -e stage
+	@./$(BUILD)/$(NAME) -e stage
 
 .PHONY: clean
 ## clean: Clean project and previous builds.
 clean:
-	@rm -f $(NAME)
+	@rm -f $(BUILD)/$(NAME)
 
 .PHONY: deps
 ## deps: Download modules
 deps:
 	@go mod download
 
-.PHONY: test
-## test: Run tests with verbose mode
-test:
-	@go test -v ./tests/*
+# .PHONY: test
+# ## test: Run tests with verbose mode
+# test:
+# 	@go test -v ./tests/*
 
 .PHONY: help
 all: help

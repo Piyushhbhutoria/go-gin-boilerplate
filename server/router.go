@@ -33,10 +33,11 @@ func NewRouter() *gin.Engine {
 	corsConfig.MaxAge = 1 * time.Minute
 	router.Use(cors.New(corsConfig))
 
+	router.Use(middlewares.AuthMiddleware())
+
 	health := new(controllers.HealthController)
 
 	router.GET("/health", health.Status)
-	router.Use(middlewares.AuthMiddleware())
 
 	return router
 

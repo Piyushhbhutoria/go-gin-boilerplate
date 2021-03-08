@@ -1,30 +1,36 @@
 package db
 
 import (
-	"context"
+	"database/sql"
 	"fmt"
 	"os"
 
 	"github.com/Piyushhbhutoria/go-gin-boilerplate/config"
-	"github.com/jackc/pgx"
+	"github.com/Piyushhbhutoria/go-gin-boilerplate/logger"
+	_ "github.com/lib/pq"
 )
 
-var db *pgx.Conn
+var db *sql.DB
 
 func Init() {
 	c := config.GetConfig()
-	c := config.GetConfig()
-	var dbURL string = fmt.Sprintf("postgresql://%s:%s@%s:%s/%s", c.GetString("db.user"), c.GetString("db.password"), c.GetString("db.host"), c.GetString("db.port"), c.GetString("db.dbname"))
 
-	conn, err := pgx.Connect(context.Background(), dbURL)
+	psqlconn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", c.GetString("db.host"), c.GetInt("db.port"), c.GetString("db.user"), c.GetString("db.password"), c.GetString("db.dbname"))
+
+	conn, err := sql.Open("postgres", psqlconn)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", err)
 		os.Exit(1)
 	}
 	db = conn
-	// defer db.Close(context.Background())
+	// defer db.Close()
 }
 
-func GetDB() *pgx.Conn {
+func GetDB() *sql.DB {
+	if err := db.Ping(); err != nil {
+		logger.LogMessage("error", "error pinging to db", err)
+		logger.LogMessage("debug", "reconnecting", nil)
+		Init()
+	}
 	return db
 }

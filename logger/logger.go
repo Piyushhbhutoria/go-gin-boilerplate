@@ -11,7 +11,7 @@ var logs *logger.Logger
 var console *logger.Logger
 
 func Init() {
-	lf, err := os.OpenFile("pulllog.txt", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0777)
+	lf, err := os.OpenFile("log.txt", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0777)
 	if err != nil {
 		logger.Fatalf("Failed to open log file: %v", err)
 	}
