@@ -1,1 +1,1 @@
-web: ./go-gin-boilerplate -e dev
+web: ./application -e dev

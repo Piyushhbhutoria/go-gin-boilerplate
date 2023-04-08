@@ -11,31 +11,34 @@ var logs *logger.Logger
 var console *logger.Logger
 
 func Init() {
+	service := os.Getenv("SERVICE_NAME")
 	lf, err := os.OpenFile("log.txt", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0777)
 	if err != nil {
 		logger.Fatalf("Failed to open log file: %v", err)
 	}
-	// defer lf.Close()
 
-	logs = logger.Init("PullHandler", false, false, lf)
-	console = logger.Init("PullHandler", true, false, ioutil.Discard)
-	// defer logs.Close()
+	logs = logger.Init(service, false, false, lf)
+	console = logger.Init(service, true, false, ioutil.Discard)
 }
 
 // LogMessage - function to log colored messages
-func LogMessage(level string, message string, args interface{}) {
+func LogMessage(level string, message string, args ...interface{}) {
 	switch level {
 	case "info":
-		console.Infof("\033[1;34m%s -> %+v\033[0m", message, args)
-		logs.Infof("%s -> %+v", message, args)
+		consolemessage := "\033[1;34m" + message + "\033[0m"
+		console.Infof(consolemessage, args...)
+		logs.Infof(message, args...)
 	case "debug":
-		console.Warningf("\033[1;33m----------------%s----------------\033[0m", message)
-		logs.Warningf("----------------%s----------------", message)
+		consolemessage := "\033[1;33m-----" + message + "-----\033[0m"
+		console.Warningf(consolemessage, args...)
+		logs.Warningf(message, args...)
 	case "error":
-		console.Errorf("\033[1;31m%s -> %+v\033[0m", message, args)
-		logs.Errorf("%s -> %+v", message, args)
+		consolemessage := "\033[1;31m" + message + "\033[0m"
+		console.Errorf(consolemessage, args...)
+		logs.Errorf(message, args...)
 	default:
-		console.Infof("\033[1;36m%s -> %+v", message, args)
-		logs.Infof("%s -> %+v", message, args)
+		consolemessage := "\033[1;36m" + message + "\033[0m"
+		console.Infof(consolemessage, args...)
+		logs.Infof(message, args...)
 	}
 }
