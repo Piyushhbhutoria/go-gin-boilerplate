@@ -6,7 +6,7 @@ Golang Gin boilerplate with postgresql resource. Supports multiple configuration
 
 ![](header.jpg)
 
-### Boilerplate structure
+## Boilerplate structure
 
 ```
 .
