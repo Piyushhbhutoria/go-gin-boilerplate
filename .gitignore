@@ -2,3 +2,12 @@ config/prod.yaml
 .DS_Store
 build/*
 log.txt
+
+# Swagger generated docs
+docs/docs.go
+docs/swagger.json
+docs/swagger.yaml
+
+.cursor/
+.warp/
+.geminicli/

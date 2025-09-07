@@ -9,7 +9,9 @@ A modern, scalable Go web application boilerplate built with the Gin framework a
 ## Features
 
 - 🚀 **Gin Framework** - Fast HTTP web framework for Go
-- 🗄️ **PostgreSQL** - Robust relational database with migrations
+- 🗄️ **PostgreSQL** - Robust relational database with GORM ORM
+- 🔄 **Database Migrations** - golang-migrate for schema management
+- 📚 **Swagger Documentation** - Interactive API documentation with realistic examples
 - 🔐 **Authentication Middleware** - JWT-based auth system
 - 📝 **Structured Logging** - Configurable logging with different levels
 - 🐳 **Docker Support** - Containerized development environment
@@ -17,40 +19,81 @@ A modern, scalable Go web application boilerplate built with the Gin framework a
 - 📊 **Health Checks** - Built-in health monitoring endpoints
 - 🏗️ **Clean Architecture** - Well-organized project structure
 - 🚦 **Graceful Shutdown** - Proper server lifecycle management
+- 🤖 **AI Agent Rules** - .rulesync configuration for consistent AI assistance
+- 📋 **Realistic API Responses** - Production-ready response models with examples
+- 🔍 **Search & Pagination** - Built-in filtering and pagination for endpoints
 
 ## Project Structure
 
-```
-.
-├── Makefile                 # Build and development commands
-├── README.md               # This file
-├── docker-compose.yml      # Docker development environment
-├── go.mod                  # Go module dependencies
-├── go.sum                  # Go module checksums
-├── main.go                 # Application entry point
-├── controllers/            # HTTP request handlers
-│   └── health.go          # Health check endpoint
-├── data/                   # Static data files
-│   └── dummy.json         # Sample data
-├── db/                     # Database configuration
-│   └── migrations/         # Database migration files
-│       ├── 000001_init.up.sql
+```text
+├── .env.example
+├── .envrc
+├── .github/
+│   └── workflows/
+│       ├── build.yml
+│       ├── go.yaml
+│       └── lint.yml
+├── .gitignore
+├── .travis.yml
+├── Makefile
+├── README.md
+├── README_DB.md
+├── controllers/
+│   └── health.go
+├── data/
+│   └── dummy.json
+├── db/
+│   └── migrations/
 │       ├── 000001_init.down.sql
-│       └── 000001_init.sql
-├── logger/                 # Logging configuration
-│   └── logger.go          # Logger setup and utilities
-├── middlewares/            # HTTP middleware
-│   └── auth.go            # Authentication middleware
-├── schema/                 # Database schema definitions
-│   └── db.go              # Database connection and setup
-├── server/                 # HTTP server configuration
-│   ├── router.go          # Route definitions
-│   └── server.go          # Server setup and configuration
-├── store/                  # Data access layer
-│   └── store.go           # Repository interfaces and implementations
-└── util/                   # Utility functions
-    └── http.go            # HTTP helper functions
+│       ├── 000001_init.sql
+│       └── 000001_init.up.sql
+├── docker-compose.yml
+├── go.mod
+├── go.sum
+├── header.jpg
+├── logger/
+│   └── logger.go
+├── main.go
+├── middlewares/
+│   └── auth.go
+├── run
+├── schema/
+│   └── db.go
+├── server/
+│   ├── router.go
+│   └── server.go
+├── store/
+│   └── store.go
+└── util/
+    └── http.go
+├── .rulesync/
+│   └── rules/
+│       └── overview.md
+└── docs/
+    ├── README.md
+    ├── docs.go
+    ├── swagger.json
+    └── swagger.yaml
 ```
+
+## .rulesync Configuration
+
+This project uses `.rulesync` to maintain consistent coding standards across AI coding agents. The `.rulesync/rules/` directory contains project-specific guidelines.
+
+### Quick Setup
+
+```sh
+# Install and initialize
+npm install -g @rulesync/cli
+
+# Sync with your AI agents
+npx rulesync import --targets cursor
+npx rulesync generate --targets cursor
+```
+
+### Documentation
+
+For detailed setup and usage instructions, see the [.rulesync documentation](https://rulesync.dev/docs).
 
 ## Prerequisites
 
@@ -168,26 +211,30 @@ PORT=3000
 SERVICE_NAME=go-gin-boilerplate
 ```
 
-## API Endpoints
+## API Documentation
 
-### Health Check
+This project includes Swagger/OpenAPI documentation with interactive UI.
 
-```sh
-curl http://localhost:3000/health
-```
-
-### Authentication (if implemented)
+### Quick Access
 
 ```sh
-# Login
-curl -X POST http://localhost:3000/auth/login \
-  -H "Content-Type: application/json" \
-  -d '{"username":"user","password":"pass"}'
+# Generate documentation
+make swagger
 
-# Protected endpoint
-curl http://localhost:3000/protected \
-  -H "Authorization: Bearer <your-jwt-token>"
+# Access Swagger UI
+http://localhost:3000/swagger/index.html
 ```
+
+### Available Endpoints
+
+- `GET /health` - Health check
+- `GET /users` - Get users (with pagination & search)
+- `POST /users` - Create user
+- `GET /users/{id}` - Get user by ID
+
+### Documentation
+
+For detailed API documentation and examples, see [docs/README.md](docs/README.md).
 
 ## Database
 

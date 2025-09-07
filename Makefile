@@ -3,13 +3,13 @@ SHELL := /bin/zsh
 # Load .env if present
 ifneq (,$(wildcard ./.env))
   include .env
-  export $(shell sed -n 's/\s*#.*$//; s/\s*export\s\+//; s/\s*=.*$//p' .env)
+  export $$(shell sed -n 's/\s*#.*$$//; s/\s*export\s\+//; s/\s*=.*$$//p' .env)
 endif
 
 MIGRATIONS_DIR := db/migrations
 DB_URL ?= $(DATABASE_URL)
 
-.PHONY: help up down force version new createdb dropdb psql status
+.PHONY: help up down force version new createdb dropdb psql status swagger swagger-clean build run
 
 help:
 	@echo "Available targets:"
@@ -19,6 +19,10 @@ help:
 	@echo "  version   - print current migration version"
 	@echo "  new       - create a new timestamped migration name=your_title"
 	@echo "  status    - print migration status"
+	@echo "  swagger   - generate Swagger documentation"
+	@echo "  swagger-clean - clean generated Swagger files"
+	@echo "  build     - build the application"
+	@echo "  run       - run the application"
 
 up:
 	@if [ -z "$(DB_URL)" ]; then echo "DATABASE_URL not set"; exit 1; fi
@@ -47,4 +51,21 @@ new:
 	mkdir -p $(MIGRATIONS_DIR); \
 	touch "$$up" "$$down"; \
 	echo "Created $$up and $$down"
+
+swagger:
+	@swag init -g main.go -o docs
+	@echo "Swagger documentation generated in docs/"
+	@echo "Access documentation at: http://localhost:<port>/swagger/index.html"
+
+swagger-clean:
+	@rm -f docs/docs.go docs/swagger.json docs/swagger.yaml
+	@echo "Swagger files cleaned"
+
+build:
+	go build -o build/application .
+	echo "Application built successfully"
+
+run:
+	echo "Starting application..."
+	./run
 

@@ -1,0 +1,11 @@
+Project: Go Gin Boilerplate
+
+Table: users {
+  id int [pk]
+  email string [unique]
+  name string
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp
+}
+

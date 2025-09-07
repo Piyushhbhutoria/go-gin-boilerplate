@@ -5,9 +5,13 @@ import (
 	"time"
 
 	"github.com/Piyushhbhutoria/go-gin-boilerplate/controllers"
-	"github.com/Piyushhbhutoria/go-gin-boilerplate/middlewares"
+	"github.com/Piyushhbhutoria/go-gin-boilerplate/docs"
+
+	// "github.com/Piyushhbhutoria/go-gin-boilerplate/middlewares"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 func NewRouter() *gin.Engine {
@@ -33,11 +37,27 @@ func NewRouter() *gin.Engine {
 	corsConfig.MaxAge = 1 * time.Minute
 	router.Use(cors.New(corsConfig))
 
-	router.Use(middlewares.AuthMiddleware())
+	// router.Use(middlewares.AuthMiddleware())
 
 	health := new(controllers.HealthController)
+	user := new(controllers.UserController)
 
 	router.GET("/health", health.Status)
+
+	// User routes
+	router.GET("/users", user.GetUsers)
+	router.POST("/users", user.CreateUser)
+	router.GET("/users/:id", user.GetUser)
+
+	// Swagger documentation
+	docs.SwaggerInfo.Title = "Go Gin Boilerplate API"
+	docs.SwaggerInfo.Description = "A RESTful API built with Go, Gin, and GORM"
+	docs.SwaggerInfo.Version = "1.0"
+	docs.SwaggerInfo.Host = "localhost:3000"
+	docs.SwaggerInfo.BasePath = "/"
+	docs.SwaggerInfo.Schemes = []string{"http", "https"}
+
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	return router
 
